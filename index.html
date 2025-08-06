@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Emaka Super Market</title>
+  <style>
+    body {
+      background-color: magenta;
+      color: blue;
+      font-family: Arial;
+      padding: 20px;
+    }
+    input, button {
+      margin: 5px;
+    }
+    #output {
+      white-space: pre-wrap;
+      border: 1px solid blue;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Login</h2>
+  Username: <input id="username"><br>
+  Password: <input id="password" type="password"><br>
+  <button onclick="login()">Login</button>
+
+  <div id="form2" style="display:none;">
+    <h2>Daily Sales</h2>
+    Item Name: <input id="item"><br>
+    Quantity: <input id="qty"><br>
+    Price: <input id="price"><br>
+    <button onclick="calculate()">Calculate</button>
+    <button onclick="clearFields()">Clear</button><br>
+
+    Total: <input id="total" readonly><br>
+    Discount: <input id="discount" readonly><br>
+    Profit: <input id="profit" readonly><br>
+
+    <button onclick="save()">Save</button>
+    <button onclick="clearOutput()">Delete Output</button>
+    <button onclick="window.close()">Exit</button>
+
+    <div id="output"></div>
+  </div>
+
+  <script>
+    function login() {
+      const u = document.getElementById("username").value;
+      const p = document.getElementById("password").value;
+      if (u === "adminEmeka" && p === "emme12345") {
+        alert("Login successful!");
+        document.getElementById("form2").style.display = "block";
+      } else {
+        alert("❌ Invalid credentials");
+      }
+    }
+
+    function calculate() {
+      const item = document.getElementById("item").value;
+      const qty = parseFloat(document.getElementById("qty").value);
+      const price = parseFloat(document.getElementById("price").value);
+      if (isNaN(qty) || isNaN(price)) {
+        alert("Enter valid numbers");
+        return;
+      }
+      const total = qty * price;
+      const discount = total * 0.012;
+      const profit = total - discount;
+
+      document.getElementById("total").value = total.toFixed(2);
+      document.getElementById("discount").value = discount.toFixed(2);
+      document.getElementById("profit").value = profit.toFixed(2);
+
+      document.getElementById("output").innerText =
+        `Item: ${item}\nQty: ${qty}\nPrice: ${price}\nTotal: ${total.toFixed(2)}\nDiscount: ${discount.toFixed(2)}\nProfit: ${profit.toFixed(2)}`;
+    }
+
+    function clearFields() {
+      ["item", "qty", "price", "total", "discount", "profit"].forEach(id => {
+        document.getElementById(id).value = "";
+      });
+    }
+
+    function save() {
+      alert("You can copy the output and save it manually (browser can't write to file directly).");
+    }
+
+    function clearOutput() {
+      document.getElementById("output").innerText = "";
+    }
+  </script>
+</body>
+</html>
